@@ -2,7 +2,6 @@ import tkinter as tk
 from random import randint
 import time
 
-
 class NumberGuessingGame:
     def __init__(self):
         self.root = tk.Tk()
@@ -42,7 +41,7 @@ class NumberGuessingGame:
         self.time_left = time_limit
         self.start_time = time.time()
 
-        self.difficulty_frame.pack_forget()#закрываем окно
+        self.difficulty_frame.pack_forget()  # закрываем окно выбора сложности
 
         # Оформление самой игры
         self.label = tk.Label(self.root, text=f"Угадайте число от 1 до 100 за {time_limit} секунд:",
@@ -58,7 +57,10 @@ class NumberGuessingGame:
         self.time_label = tk.Label(self.root, text=f"Время: {self.time_left}", font=('Helvetica', 12))
         self.time_label.pack(side=tk.BOTTOM)
 
-    def check_number(self): # Отражает саму игру
+        # Начинаем обновление таймера
+        self.update_timer()
+
+    def check_number(self):
         try:
             guessed_number = int(self.entry.get())
 
@@ -98,7 +100,7 @@ class NumberGuessingGame:
         self.start_time = time.time()
         self.time_label.pack_forget()
 
-    def update_timer(self): # Функция замеров времени
+    def update_timer(self):
         current_time = time.time() - self.start_time
         remaining_time = max(0, self.time_left - current_time)
 
@@ -110,13 +112,13 @@ class NumberGuessingGame:
         else:
             self.time_label.config(text="Время вышло!")
             self.result_label.config(text=f"Вы проиграли! Правильный ответ: {self.number_to_guess}")
+            self.button.config(state=tk.DISABLED)
+            self.entry.config(state=tk.DISABLED)
 
     def run(self):
         self.root.after(100, self.update_timer)
         self.root.mainloop()
 
-
 if __name__ == "__main__":
     game = NumberGuessingGame()
     game.run()
-
